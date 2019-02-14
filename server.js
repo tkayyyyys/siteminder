@@ -14,7 +14,7 @@ const logger = log4js.getLogger('siteminder');
 
 // Express
 var app = express();
-//const port = process.env.port || 8080;
+//const port = process.env.PORT || 3000;
 
 
 // CORS
@@ -59,14 +59,14 @@ app.use((err, req, res, next) => {
 });
 
 // Heroku debug
-app.listen(process.env.port || 3000, () => {
+app.listen(process.env.PORT || 3000, () => {
 
   // HEROKU DEBUG
   console.log("Express CORS-enabled RESTful Service up and running!");
-  console.log("We are live on " + process.env.port || 3000);
+  console.log("We are live on " + process.env.PORT || 3000);
 
   logger.info("Express CORS-enabled RESTful Service up and running!");
-  logger.info("We are live on " + process.env.port || 3000);
+  logger.info("We are live on " + process.env.PORT || 3000);
 });
 
 module.exports = app;
