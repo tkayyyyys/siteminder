@@ -63,10 +63,10 @@ app.listen(process.env.port || 3000, () => {
 
   // HEROKU DEBUG
   console.log("Express CORS-enabled RESTful Service up and running!");
-  console.log("We are live on " + port);
+  console.log("We are live on " + process.env.port || 3000);
 
   logger.info("Express CORS-enabled RESTful Service up and running!");
-  logger.info("We are live on " + port);
+  logger.info("We are live on " + process.env.port || 3000);
 });
 
 module.exports = app;
