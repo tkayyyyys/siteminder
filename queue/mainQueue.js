@@ -39,15 +39,11 @@ function sendToQueue(req, res) {
 
   // Fired upon successful response on reply-to channel
     let rmsg = channel.responseEmitter.once(correlationId,  msg => {
-    /*  console.log("BGIN responseEmitter");
-      console.log(msg.toString());
-      console.log("END responseEmitter");
-      */
       res.write(msg, 'binary');
       res.end(null, 'binary');
     });
 
-   let input = req.query;
+   let input = req.body;
 
    channel.assertQueue(MAIL_QUEUE, { durable: false })
       .then(channel.sendToQueue(MAIL_QUEUE, 

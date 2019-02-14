@@ -15,7 +15,7 @@ describe('/POST mail: Input validation ', function() {
                   res.should.have.status(422);
               	  done();
             });
-      });
+      }); 
 
        it('Incorrect CC email - just a word', function(done) {
         chai.request(server)

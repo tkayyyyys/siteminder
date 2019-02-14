@@ -3,8 +3,8 @@ const log4js = require('log4js');
 const logger = log4js.getLogger('siteminder');
 const request = require('request-promise');
 const MAIL_QUEUE = 'mail';
-require('request-debug')(request);
-require('request').debug = true;
+//require('request-debug')(request);
+//require('request').debug = true;
 
 // Send Grid 
 const createGridRequest = function(data) {
@@ -76,7 +76,7 @@ const createGridRequest = function(data) {
         */
         resolve({'statusCode':response.statusCode,'statusMessage':response.statusMessage});
       }).catch(function (err) {
-        logger.error(err);
+        //logger.error(err); 
         reject({'statusCode':404,'statusMessage':err});
     });
   });
@@ -99,7 +99,8 @@ amqp.connect(process.env.CLOUDAMQP_URL)
       logger.info(" [x] SendGrid Worker: Consume");
       
       let jdata = JSON.parse(msg.content.toString());
-      //console.log(jdata);
+      logger.info(" [x] SendGrid CONSUMED DATA");
+      logger.info(msg.content.toString());
 
       const httpResponse = await createGridRequest(jdata);
       let queueResponse = JSON.stringify(httpResponse);

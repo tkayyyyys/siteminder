@@ -82,6 +82,9 @@ const createGunRequest = function(data) {
         logger.info(" [x] MailGun Worker: Consume");
         let jdata = JSON.parse(msg.content.toString());
 
+        logger.info(" [x] MailGun CONSUMED DATA");
+        logger.info(msg.content.toString());
+
         const httpResponse = await createGunRequest(jdata); 
         let queueResponse = JSON.stringify(httpResponse);
      

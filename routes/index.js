@@ -10,12 +10,12 @@ const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+
 
 
 // Initialise the MQ
-/*amqpQueue.init().catch(
+amqpQueue.init().catch(
 	(err)=>
 	{
 		logger.error(" RabbitMQ Queue Startup Error" + err);
 	}
-);*/
+);
 
 // Validate incoming email addresses. Allows for arrays. 
 const emailValidator = (t) => {
@@ -35,7 +35,9 @@ const emailValidator = (t) => {
  }
 
 router.post('/mail/', [
-		// Input Validation
+		// Input Validation 
+		check('to').exists(),
+		check('from').exists(),
 		check('to').custom(emailValidator),
 		check('from','Incorrect FROM value.').isEmail(),
 		check('cc', 'Incorrect CC value.').optional().custom(emailValidator),
@@ -43,37 +45,15 @@ router.post('/mail/', [
 		check('subject', 'You must include a email subject').exists(),
 		check('message', 'You must include a email message').exists()
 	], function (req, res) {
-	  
-	  const errors= validationResult(req);
+
+	  const errors= validationResult(req); 
 	  if (!errors.isEmpty()) {
 	  	logger.error(" BAD INPUT: " + JSON.stringify(validationResult(req).mapped()));
 	    return res.status(422).json({ errors: errors.array() });
-	  }
-
-	   amqpQueue.init().catch(
-		(err)=>
-			{
-				logger.error(" RabbitMQ Queue Startup Error" + err);
-			}
-		);
-
+	  } 
 
 	 // Send our request to the MQ 
-	 amqpQueue.send(req, res);/*, (err) => {
-			if(err){
-				 logger.err('Eror with mail service.');
-				 return res.json({
-	       			 error: err,
-	       			 message: 'Error with mail service.'
-       			 });
-			}else{
-				console.log("RETURNED!! DUMP res here");
-				return res.json({
-        			error: null,
-        			message: 'worked'
-        		});
-			}
-		});		*/
+	 amqpQueue.send(req, res);
 });
 
 

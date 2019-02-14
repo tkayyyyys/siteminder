@@ -12,8 +12,16 @@
 ## Test
 > npm run test
 
+## HEROKU TEST
+
+curl --header "Content-Type: application/json" --request POST --data '{"to":"tkobialka@gmail.com", "from": "root@localhost.com", "message": "You should see this!", "subject": "GREAT TEST"}' https://siteminder-rest.herokuapp.com/mail
+
+
+* NOTE: Only 3 email addresses are verified at MailGun. If you would like to test this app please email me your email to tkobialka@gmail.com
+
 
 ## Notes siteminder backend dev-test
+
 
 ## Stack
 
@@ -31,9 +39,12 @@
 
 * Very basic setup with two queues. One for messages and one for reply-to responses.
 
-* Currently if one email provider fails, the inital request causing the fail will get 'stuck'.
-* No expiration set on messages (TTL). In IRL scenario this should be set to avoid the queue filling up.
-* NO deadletter queue. Ideally a retry with exponential back-off of should be set. unsticking 'stuck' msgs
+* Currently if one email provider fails, the inital request causing the fail will get 'stuck'. 
+  Resulting in the queue needing to be purged / deleted.
+
+* Limitations:
+* No expiration set on messages (TTL). In IRL scenario this should be set to avoid the queue filling up. See above 'stuck'.
+* NO deadletter queue. Ideally a retry with exponential back-off of should be set, thus Unsticking 'stuck' msgs
 
 * Responses are statusCode & statusMessage - retrieved from Mail API's. Verbosity of messages should be improved.
 * Rabbit MQ is provided as a service by https://www.cloudamqp.com/
